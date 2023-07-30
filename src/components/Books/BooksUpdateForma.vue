@@ -41,9 +41,20 @@
 import {mapActions} from "vuex";
 
 export default {
-  name: "NewForma",
+  name: "UpdateForma",
+  props: ['clicked'],
+  mounted() {
+    this.bookId = this.clicked.id
+    this.createdAt = this.clicked.createdAt
+
+    this.form.title = this.clicked.title
+    this.form.categoryId = this.clicked.categoryId
+  },
+
   data() {
     return {
+      bookId: 0,
+      createdAt: '',
       form: {
         title: '',
         categoryId: 0,
@@ -53,22 +64,19 @@ export default {
   },
   methods: {
     ...mapActions([
-      'postBook'
+      'put'
     ]),
 
     onSubmit(event) {
       event.preventDefault()
-
-      this.postBook({id: 0, title: this.form.title, createdAt: new Date(), updatedAt: new Date(), categoryId: this.form.categoryId})
-
-      this.form.title = ''
-      this.form.categoryId = 0
+      let obj = {table: 'books', id: this.bookId, title: this.form.title, createdAt: this.createdAt, updatedAt: new Date(), categoryId: parseInt(this.form.categoryId)}
+      this.put(obj)
     },
     onReset(event) {
       event.preventDefault()
 
-      this.form.title = ''
-      this.form.categoryId = 0
+      this.form.title = this.clicked.title
+      this.form.categoryId = this.clicked.categoryId
 
       // Trick to reset/clear native browser form validation state
       this.show = false
@@ -76,7 +84,6 @@ export default {
         this.show = true
       })
     },
-
   },
   watch: {
   },

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Header subtitle="Authors"/>
+    <Header subtitle="Patrons"/>
 
     <b-modal v-model="newModal">
-      <AuthorsNewForma/>
+      <PatronsNewForma/>
     </b-modal>
     <b-modal v-model="updateModal">
-      <AuthorsUpdateForma :clicked="selectedUpdate"/>
+      <PatronsUpdateForma :clicked="selectedUpdate"/>
     </b-modal>
 
     <hr>
@@ -17,7 +17,7 @@
             class="btn btn-primary"
             variant="primary"
             @click="newForm()"
-        >New Author</b-button>
+        >New Patron</b-button>
       </b-col>
       <b-col lg="6" class="my-1">
         <b-form-groups
@@ -45,7 +45,7 @@
 
     <b-pagination
       v-model="currentPage"
-      :total-rows="authors.length"
+      :total-rows="patrons.length"
       :per-page="perPage"
       aria-controls="image-table"
     ></b-pagination>
@@ -54,7 +54,7 @@
       hover
       fixed
       :filter="filter"
-      :items="authors"
+      :items="patrons"
       :fields="fields"
       small
       :per-page="perPage"
@@ -84,7 +84,7 @@
     </b-table>
     <b-pagination
         v-model="currentPage"
-        :total-rows="authors.length"
+        :total-rows="patrons.length"
         :per-page="perPage"
         aria-controls="image-table"
     ></b-pagination>
@@ -94,17 +94,19 @@
 <script>
 
   import { mapActions, mapState } from 'vuex';
+  import NewForma from "@/components/Books/BooksNewForma";
+  import UpdateForma from "@/components/Books/BooksUpdateForma";
   import Header from "@/components/Header";
-  import AuthorsNewForma from "@/components/Authors/AuthorsNewForma";
-  import AuthorsUpdateForma from "@/components/Authors/AuthorsUpdateForma";
+  import PatronsUpdateForma from "@/components/Patrons/PatronsUpdateForma";
+  import PatronsNewForma from "@/components/Patrons/PatronsNewForma";
 
   export default {
-    name: 'Authors',
-    components: {AuthorsUpdateForma, AuthorsNewForma, Header},
+    name: 'Patrons',
+    components: {PatronsNewForma, PatronsUpdateForma, Header, UpdateForma, NewForma},
 
     data() {
       return {
-        fields: ['id', 'name', 'createdAt', 'updatedAt', { key: "actions" }],
+        fields: ['id', 'first_name', 'surname', 'email', 'status', 'createdAt', 'updatedAt', { key: "actions" }],
         items: [],
         currentPage: 1,
         perPage: 4,
@@ -119,12 +121,12 @@
 
     computed: {
       ...mapState([
-        'authors'
+        'patrons'
       ]),
     },
 
     mounted() {
-      this.fetch('authors');
+      this.fetch('patrons');
     },
 
     methods: {
@@ -143,7 +145,7 @@
       },
 
       deleteRow(record){
-        let table = 'authors'
+        let table = 'patrons'
         let id = record.id
         this.delete({table, id})
       }

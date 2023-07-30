@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Header subtitle="Authors"/>
+    <Header subtitle="Holds"/>
 
     <b-modal v-model="newModal">
-      <AuthorsNewForma/>
+      <HoldsNewForma/>
     </b-modal>
     <b-modal v-model="updateModal">
-      <AuthorsUpdateForma :clicked="selectedUpdate"/>
+      <HoldsUpdateForma :clicked="selectedUpdate"/>
     </b-modal>
 
     <hr>
@@ -17,7 +17,7 @@
             class="btn btn-primary"
             variant="primary"
             @click="newForm()"
-        >New Author</b-button>
+        >New Hold</b-button>
       </b-col>
       <b-col lg="6" class="my-1">
         <b-form-groups
@@ -45,7 +45,7 @@
 
     <b-pagination
       v-model="currentPage"
-      :total-rows="authors.length"
+      :total-rows="holds.length"
       :per-page="perPage"
       aria-controls="image-table"
     ></b-pagination>
@@ -54,12 +54,19 @@
       hover
       fixed
       :filter="filter"
-      :items="authors"
+      :items="holds"
       :fields="fields"
       small
       :per-page="perPage"
       :current-page="currentPage"
     >
+      <template #cell(start_time)="data">
+        {{ new Date(data.item.start_time) | formatDate}}
+      </template>
+      <template #cell(end_time)="data">
+        {{ new Date(data.item.end_time) | formatDate}}
+      </template>
+
       <template #cell(createdAt)="data">
         {{ new Date(data.item.createdAt) | formatDate}}
       </template>
@@ -84,7 +91,7 @@
     </b-table>
     <b-pagination
         v-model="currentPage"
-        :total-rows="authors.length"
+        :total-rows="holds.length"
         :per-page="perPage"
         aria-controls="image-table"
     ></b-pagination>
@@ -94,17 +101,21 @@
 <script>
 
   import { mapActions, mapState } from 'vuex';
+  import NewForma from "@/components/Books/BooksNewForma";
+  import UpdateForma from "@/components/Books/BooksUpdateForma";
   import Header from "@/components/Header";
-  import AuthorsNewForma from "@/components/Authors/AuthorsNewForma";
-  import AuthorsUpdateForma from "@/components/Authors/AuthorsUpdateForma";
+  import CheckoutsUpdateForma from "@/components/Checkouts/CheckoutsUpdateForma";
+  import CheckoutsNewForma from "@/components/Checkouts/CheckoutsNewForma";
+  import HoldsUpdateForma from "@/components/Holds/HoldsUpdateForma";
+  import HoldsNewForma from "@/components/Holds/HoldsNewForma";
 
   export default {
-    name: 'Authors',
-    components: {AuthorsUpdateForma, AuthorsNewForma, Header},
+    name: 'Holds',
+    components: {HoldsNewForma, HoldsUpdateForma, CheckoutsNewForma, CheckoutsUpdateForma, Header, UpdateForma, NewForma},
 
     data() {
       return {
-        fields: ['id', 'name', 'createdAt', 'updatedAt', { key: "actions" }],
+        fields: ['id', 'start_time', 'end_time', 'book_id', 'patron_id', 'createdAt', 'updatedAt', { key: "actions" }],
         items: [],
         currentPage: 1,
         perPage: 4,
@@ -119,12 +130,12 @@
 
     computed: {
       ...mapState([
-        'authors'
+        'holds'
       ]),
     },
 
     mounted() {
-      this.fetch('authors');
+      this.fetch('holds');
     },
 
     methods: {
@@ -143,7 +154,7 @@
       },
 
       deleteRow(record){
-        let table = 'authors'
+        let table = 'holds'
         let id = record.id
         this.delete({table, id})
       }

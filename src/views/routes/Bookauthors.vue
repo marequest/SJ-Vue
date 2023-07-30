@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Header subtitle="Authors"/>
+    <Header subtitle="Bookauthors"/>
 
     <b-modal v-model="newModal">
-      <AuthorsNewForma/>
+      <BookauthorsNewForma/>
     </b-modal>
     <b-modal v-model="updateModal">
-      <AuthorsUpdateForma :clicked="selectedUpdate"/>
+      <BookauthorsUpdateForma :clicked="selectedUpdate"/>
     </b-modal>
 
     <hr>
@@ -17,7 +17,7 @@
             class="btn btn-primary"
             variant="primary"
             @click="newForm()"
-        >New Author</b-button>
+        >New Bookauthor</b-button>
       </b-col>
       <b-col lg="6" class="my-1">
         <b-form-groups
@@ -45,7 +45,7 @@
 
     <b-pagination
       v-model="currentPage"
-      :total-rows="authors.length"
+      :total-rows="bookauthors.length"
       :per-page="perPage"
       aria-controls="image-table"
     ></b-pagination>
@@ -54,7 +54,7 @@
       hover
       fixed
       :filter="filter"
-      :items="authors"
+      :items="bookauthors"
       :fields="fields"
       small
       :per-page="perPage"
@@ -84,7 +84,7 @@
     </b-table>
     <b-pagination
         v-model="currentPage"
-        :total-rows="authors.length"
+        :total-rows="bookauthors.length"
         :per-page="perPage"
         aria-controls="image-table"
     ></b-pagination>
@@ -94,17 +94,27 @@
 <script>
 
   import { mapActions, mapState } from 'vuex';
+  import NewForma from "@/components/Books/BooksNewForma";
+  import UpdateForma from "@/components/Books/BooksUpdateForma";
   import Header from "@/components/Header";
-  import AuthorsNewForma from "@/components/Authors/AuthorsNewForma";
-  import AuthorsUpdateForma from "@/components/Authors/AuthorsUpdateForma";
+  import WaitlistsUpdateForma from "@/components/Waitlists/WaitlistsUpdateForma";
+  import WaitlistsNewForma from "@/components/Waitlists/WaitlistsNewForma";
+  import BookcopiesUpdateForma from "@/components/Bookcopies/BookcopiesUpdateForma";
+  import BookcopiesNewForma from "@/components/Bookcopies/BookcopiesNewForma";
+  import BookauthorsUpdateForma from "@/components/Bookauthors/BookauthorsUpdateForma";
+  import BookauthorsNewForma from "@/components/Bookauthors/BookauthorsNewForma";
 
   export default {
-    name: 'Authors',
-    components: {AuthorsUpdateForma, AuthorsNewForma, Header},
+    name: 'Bookauthors',
+    components: {
+      BookauthorsNewForma,
+      BookauthorsUpdateForma,
+      BookcopiesNewForma,
+      BookcopiesUpdateForma, WaitlistsNewForma, WaitlistsUpdateForma, Header, UpdateForma, NewForma},
 
     data() {
       return {
-        fields: ['id', 'name', 'createdAt', 'updatedAt', { key: "actions" }],
+        fields: ['id', 'book_id', 'author_id', 'createdAt', 'updatedAt', { key: "actions" }],
         items: [],
         currentPage: 1,
         perPage: 4,
@@ -119,12 +129,12 @@
 
     computed: {
       ...mapState([
-        'authors'
+        'bookauthors'
       ]),
     },
 
     mounted() {
-      this.fetch('authors');
+      this.fetch('bookauthors');
     },
 
     methods: {
@@ -143,7 +153,7 @@
       },
 
       deleteRow(record){
-        let table = 'authors'
+        let table = 'bookauthors'
         let id = record.id
         this.delete({table, id})
       }

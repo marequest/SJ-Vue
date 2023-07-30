@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Header subtitle="Authors"/>
+    <Header subtitle="Bookcopies"/>
 
     <b-modal v-model="newModal">
-      <AuthorsNewForma/>
+      <BookcopiesNewForma/>
     </b-modal>
     <b-modal v-model="updateModal">
-      <AuthorsUpdateForma :clicked="selectedUpdate"/>
+      <BookcopiesUpdateForma :clicked="selectedUpdate"/>
     </b-modal>
 
     <hr>
@@ -17,7 +17,7 @@
             class="btn btn-primary"
             variant="primary"
             @click="newForm()"
-        >New Author</b-button>
+        >New Bookcopy</b-button>
       </b-col>
       <b-col lg="6" class="my-1">
         <b-form-groups
@@ -45,7 +45,7 @@
 
     <b-pagination
       v-model="currentPage"
-      :total-rows="authors.length"
+      :total-rows="bookcopies.length"
       :per-page="perPage"
       aria-controls="image-table"
     ></b-pagination>
@@ -54,7 +54,7 @@
       hover
       fixed
       :filter="filter"
-      :items="authors"
+      :items="bookcopies"
       :fields="fields"
       small
       :per-page="perPage"
@@ -84,7 +84,7 @@
     </b-table>
     <b-pagination
         v-model="currentPage"
-        :total-rows="authors.length"
+        :total-rows="bookcopies.length"
         :per-page="perPage"
         aria-controls="image-table"
     ></b-pagination>
@@ -94,17 +94,23 @@
 <script>
 
   import { mapActions, mapState } from 'vuex';
+  import NewForma from "@/components/Books/BooksNewForma";
+  import UpdateForma from "@/components/Books/BooksUpdateForma";
   import Header from "@/components/Header";
-  import AuthorsNewForma from "@/components/Authors/AuthorsNewForma";
-  import AuthorsUpdateForma from "@/components/Authors/AuthorsUpdateForma";
+  import WaitlistsUpdateForma from "@/components/Waitlists/WaitlistsUpdateForma";
+  import WaitlistsNewForma from "@/components/Waitlists/WaitlistsNewForma";
+  import BookcopiesUpdateForma from "@/components/Bookcopies/BookcopiesUpdateForma";
+  import BookcopiesNewForma from "@/components/Bookcopies/BookcopiesNewForma";
 
   export default {
-    name: 'Authors',
-    components: {AuthorsUpdateForma, AuthorsNewForma, Header},
+    name: 'Bookcopies',
+    components: {
+      BookcopiesNewForma,
+      BookcopiesUpdateForma, WaitlistsNewForma, WaitlistsUpdateForma, Header, UpdateForma, NewForma},
 
     data() {
       return {
-        fields: ['id', 'name', 'createdAt', 'updatedAt', { key: "actions" }],
+        fields: ['id', 'year_published', 'book_id', 'publisher_id', 'createdAt', 'updatedAt', { key: "actions" }],
         items: [],
         currentPage: 1,
         perPage: 4,
@@ -119,12 +125,12 @@
 
     computed: {
       ...mapState([
-        'authors'
+        'bookcopies'
       ]),
     },
 
     mounted() {
-      this.fetch('authors');
+      this.fetch('bookcopies');
     },
 
     methods: {
@@ -143,7 +149,7 @@
       },
 
       deleteRow(record){
-        let table = 'authors'
+        let table = 'bookcopies'
         let id = record.id
         this.delete({table, id})
       }

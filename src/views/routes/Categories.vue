@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Header subtitle="Authors"/>
+    <Header subtitle="Categories"/>
 
     <b-modal v-model="newModal">
-      <AuthorsNewForma/>
+      <CategoriesNewForma/>
     </b-modal>
     <b-modal v-model="updateModal">
-      <AuthorsUpdateForma :clicked="selectedUpdate"/>
+      <CategoriesUpdateForma :clicked="selectedUpdate"/>
     </b-modal>
 
     <hr>
@@ -17,7 +17,7 @@
             class="btn btn-primary"
             variant="primary"
             @click="newForm()"
-        >New Author</b-button>
+        >New Category</b-button>
       </b-col>
       <b-col lg="6" class="my-1">
         <b-form-groups
@@ -45,7 +45,7 @@
 
     <b-pagination
       v-model="currentPage"
-      :total-rows="authors.length"
+      :total-rows="categories.length"
       :per-page="perPage"
       aria-controls="image-table"
     ></b-pagination>
@@ -54,7 +54,7 @@
       hover
       fixed
       :filter="filter"
-      :items="authors"
+      :items="categories"
       :fields="fields"
       small
       :per-page="perPage"
@@ -84,7 +84,7 @@
     </b-table>
     <b-pagination
         v-model="currentPage"
-        :total-rows="authors.length"
+        :total-rows="categories.length"
         :per-page="perPage"
         aria-controls="image-table"
     ></b-pagination>
@@ -97,10 +97,12 @@
   import Header from "@/components/Header";
   import AuthorsNewForma from "@/components/Authors/AuthorsNewForma";
   import AuthorsUpdateForma from "@/components/Authors/AuthorsUpdateForma";
+  import CategoriesUpdateForma from "@/components/Categories/CategoriesUpdateForma";
+  import CategoriesNewForma from "@/components/Categories/CategoriesNewForma";
 
   export default {
-    name: 'Authors',
-    components: {AuthorsUpdateForma, AuthorsNewForma, Header},
+    name: 'Categories',
+    components: {CategoriesNewForma, CategoriesUpdateForma, AuthorsUpdateForma, AuthorsNewForma, Header},
 
     data() {
       return {
@@ -119,12 +121,12 @@
 
     computed: {
       ...mapState([
-        'authors'
+        'categories'
       ]),
     },
 
     mounted() {
-      this.fetch('authors');
+      this.fetch('categories');
     },
 
     methods: {
@@ -143,7 +145,7 @@
       },
 
       deleteRow(record){
-        let table = 'authors'
+        let table = 'categories'
         let id = record.id
         this.delete({table, id})
       }

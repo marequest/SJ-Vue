@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Header subtitle="Authors"/>
+    <Header subtitle="Notifications"/>
 
     <b-modal v-model="newModal">
-      <AuthorsNewForma/>
+      <NotificationsNewForma/>
     </b-modal>
     <b-modal v-model="updateModal">
-      <AuthorsUpdateForma :clicked="selectedUpdate"/>
+      <NotificationsUpdateForma :clicked="selectedUpdate"/>
     </b-modal>
 
     <hr>
@@ -17,7 +17,7 @@
             class="btn btn-primary"
             variant="primary"
             @click="newForm()"
-        >New Author</b-button>
+        >New Notification</b-button>
       </b-col>
       <b-col lg="6" class="my-1">
         <b-form-groups
@@ -45,7 +45,7 @@
 
     <b-pagination
       v-model="currentPage"
-      :total-rows="authors.length"
+      :total-rows="notifications.length"
       :per-page="perPage"
       aria-controls="image-table"
     ></b-pagination>
@@ -54,12 +54,16 @@
       hover
       fixed
       :filter="filter"
-      :items="authors"
+      :items="notifications"
       :fields="fields"
       small
       :per-page="perPage"
       :current-page="currentPage"
     >
+      <template #cell(sent_at)="data">
+        {{ new Date(data.item.sent_at) | formatDate}}
+      </template>
+
       <template #cell(createdAt)="data">
         {{ new Date(data.item.createdAt) | formatDate}}
       </template>
@@ -84,7 +88,7 @@
     </b-table>
     <b-pagination
         v-model="currentPage"
-        :total-rows="authors.length"
+        :total-rows="notifications.length"
         :per-page="perPage"
         aria-controls="image-table"
     ></b-pagination>
@@ -94,17 +98,26 @@
 <script>
 
   import { mapActions, mapState } from 'vuex';
+  import NewForma from "@/components/Books/BooksNewForma";
+  import UpdateForma from "@/components/Books/BooksUpdateForma";
   import Header from "@/components/Header";
-  import AuthorsNewForma from "@/components/Authors/AuthorsNewForma";
-  import AuthorsUpdateForma from "@/components/Authors/AuthorsUpdateForma";
+  import CheckoutsUpdateForma from "@/components/Checkouts/CheckoutsUpdateForma";
+  import CheckoutsNewForma from "@/components/Checkouts/CheckoutsNewForma";
+  import HoldsUpdateForma from "@/components/Holds/HoldsUpdateForma";
+  import HoldsNewForma from "@/components/Holds/HoldsNewForma";
+  import NotificationsUpdateForma from "@/components/Notifications/NotificationsUpdateForma";
+  import NotificationsNewForma from "@/components/Notifications/NotificationsNewForma";
 
   export default {
-    name: 'Authors',
-    components: {AuthorsUpdateForma, AuthorsNewForma, Header},
+    name: 'Notifications',
+    components: {
+      NotificationsNewForma,
+      NotificationsUpdateForma,
+      HoldsNewForma, HoldsUpdateForma, CheckoutsNewForma, CheckoutsUpdateForma, Header, UpdateForma, NewForma},
 
     data() {
       return {
-        fields: ['id', 'name', 'createdAt', 'updatedAt', { key: "actions" }],
+        fields: ['id', 'sent_at', 'contents', 'patron_id', 'createdAt', 'updatedAt', { key: "actions" }],
         items: [],
         currentPage: 1,
         perPage: 4,
@@ -119,12 +132,12 @@
 
     computed: {
       ...mapState([
-        'authors'
+        'notifications'
       ]),
     },
 
     mounted() {
-      this.fetch('authors');
+      this.fetch('notifications');
     },
 
     methods: {
@@ -143,7 +156,7 @@
       },
 
       deleteRow(record){
-        let table = 'authors'
+        let table = 'notifications'
         let id = record.id
         this.delete({table, id})
       }
