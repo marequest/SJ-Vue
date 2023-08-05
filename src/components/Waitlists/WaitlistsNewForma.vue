@@ -36,9 +36,6 @@ export default {
   name: "WaitlistsNewForma",
 
   mounted() {
-    this.id = this.clicked.id
-    this.createdAt = this.clicked.createdAt
-
     this.form.patron_id = 0
     this.form.book_id = 0
   },
@@ -59,7 +56,7 @@ export default {
 
     onSubmit(event) {
       event.preventDefault()
-      let obj = {table: 'waitlists', id: 0, patron_id: this.form.patron_id, book_id: this.form.book_id, createdAt: new Date(), updatedAt: new Date()}
+      let obj = {table: 'waitlists', id: null, patron_id: this.form.patron_id, book_id: this.form.book_id, createdAt: new Date(), updatedAt: new Date()}
       this.post(obj)
     },
     onReset(event) {

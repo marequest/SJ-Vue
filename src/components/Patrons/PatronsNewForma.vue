@@ -87,7 +87,7 @@ export default {
 
     onSubmit(event) {
       event.preventDefault()
-      let obj = {table: 'patrons', id: 0, first_name: this.form.first_name, surname: this.form.surname, email: this.form.email, status: this.form.status, createdAt: new Date(), updatedAt: new Date()}
+      let obj = {table: 'patrons', id: null, first_name: this.form.first_name, surname: this.form.surname, email: this.form.email, status: this.form.status, createdAt: new Date(), updatedAt: new Date()}
       console.log(obj)
       this.post(obj)
 

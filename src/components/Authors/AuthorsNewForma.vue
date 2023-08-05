@@ -48,7 +48,7 @@ export default {
 
     onSubmit(event) {
       event.preventDefault()
-      let obj = {table: 'authors', id: 0, name: this.form.name, createdAt: new Date(), updatedAt: new Date()}
+      let obj = {table: 'authors', id: null, name: this.form.name, createdAt: new Date(), updatedAt: new Date()}
       this.post(obj)
 
       this.form.name = ''

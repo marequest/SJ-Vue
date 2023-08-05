@@ -35,9 +35,6 @@ export default {
   name: "CategoriesNewForma",
 
   mounted() {
-    this.id = this.clicked.id
-    this.createdAt = this.clicked.createdAt
-
     this.form.name = ''
   },
 
@@ -56,7 +53,7 @@ export default {
 
     onSubmit(event) {
       event.preventDefault()
-      let obj = {table: 'categories', id: 0, name: this.form.name, createdAt: new Date(), updatedAt: new Date()}
+      let obj = {table: 'categories', id: null, name: this.form.name, createdAt: new Date(), updatedAt: new Date()}
       this.post(obj)
     },
     onReset(event) {

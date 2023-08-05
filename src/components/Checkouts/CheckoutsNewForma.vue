@@ -72,8 +72,8 @@ export default {
       id: 0,
       createdAt: '',
       form: {
-        start_time: '',
-        end_time: '',
+        start_time: new Date(),
+        end_time: new Date(),
         book_copy_id: 1,
         patron_id: 1,
         is_returned: false,
@@ -88,7 +88,7 @@ export default {
 
     onSubmit(event) {
       event.preventDefault()
-      let obj = {table: 'checkouts', id: this.id, start_time: this.form.start_time,
+      let obj = {table: 'checkouts', id: null, start_time: this.form.start_time,
         end_time: this.form.end_time, book_copy_id: this.form.book_copy_id, patron_id: this.form.patron_id,
         is_returned: this.form.is_returned, createdAt: this.createdAt, updatedAt: new Date()}
       console.log(obj)
@@ -98,8 +98,8 @@ export default {
     onReset(event) {
       event.preventDefault()
 
-      this.form.start_time = ''
-      this.form.end_time = ''
+      this.form.start_time = new Date()
+      this.form.end_time = new Date()
       this.form.book_copy_id = 0
       this.form.patron_id = 0
       this.form.is_returned = false

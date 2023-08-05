@@ -90,7 +90,7 @@ export default {
 
     onSubmit(event) {
       event.preventDefault()
-      let obj = {table: 'holds', id: 0, start_time: this.form.start_time,
+      let obj = {table: 'holds', id: null, start_time: this.form.start_time,
         end_time: this.form.end_time, book_id: this.form.book_id, patron_id: this.form.patron_id,
         createdAt: new Date(), updatedAt: new Date()}
       console.log(obj)

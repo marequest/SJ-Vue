@@ -77,7 +77,7 @@ export default {
     onSubmit(event) {
       event.preventDefault()
       let obj = {table: 'notifications', 
-        id: this.id, sent_at: this.form.sent_at, contents: this.form.contents, patron_id: this.form.patron_id,
+        id: null, sent_at: this.form.sent_at, contents: this.form.contents, patron_id: this.form.patron_id,
         createdAt: this.createdAt, updatedAt: new Date()}
       console.log(obj)
       this.post(obj)

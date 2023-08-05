@@ -59,7 +59,7 @@ export default {
 
     onSubmit(event) {
       event.preventDefault()
-      let obj = {table: 'bookauthors', id: 0, book_id: this.form.book_id, author_id: this.form.author_id, createdAt: new Date(), updatedAt: new Date()}
+      let obj = {table: 'bookauthors', id: null, book_id: this.form.book_id, author_id: this.form.author_id, createdAt: new Date(), updatedAt: new Date()}
       this.post(obj)
     },
     onReset(event) {
